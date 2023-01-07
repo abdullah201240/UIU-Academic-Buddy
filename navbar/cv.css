@@ -1,0 +1,36 @@
+.box{
+position:relative;
+overflow:hidden;
+
+
+
+}
+.box:before{
+  content: "";
+  position: absolute;
+  background:linear-gradient(to right,#87CEEB,#87CEEB);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity : 0;
+  transition: all 0.4s linear;
+
+}
+.box:hover:before{
+  opacity: 1;
+}
+.box .box-content{
+
+  color: #fff;
+  width: 100%;
+  transform: translateY(-50%)scale(0);
+  top: 50%;
+  left: 0;
+  transition: all 0.4s linear;
+  text-align:center ;
+
+}
+.box:hover .box-content{
+  transform: translateY(-50%)scale(1);
+}

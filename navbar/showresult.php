@@ -1,0 +1,546 @@
+<?php
+session_start();
+if (!isset($_SESSION['teacher_id'])) {
+    header("location: ../index.php");
+    exit;
+}
+include("db.php");
+$cid = $_SESSION['cid'];
+//$weak = $_GET['weak'];
+$weak = $_SESSION['week'];
+
+//$name = $_GET['name'];
+
+$sid = $_GET['id'];
+
+
+$name = $_SESSION['ex'];
+
+?>
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="uploads/<?= $_SESSION['teacher_image'] ?>">
+    <link rel="icon" type="image/png" href="uploads/<?= $_SESSION['teacher_image'] ?>">
+    <link rel="stylesheet" href="css/style.css">
+    <title>
+
+        Teacher
+
+
+
+
+
+    </title>
+
+
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+
+    <!-- Nucleo Icons -->
+    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- CSS Files -->
+
+
+
+    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
+
+
+    <link href="./shortcourse/css/style.css" rel="stylesheet">
+
+
+</head>
+
+
+<body class="g-sidenav-show  bg-gray-100">
+
+
+
+
+
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+
+        <div class="sidenav-header">
+            <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+            <a class="navbar-brand m-0" href="teacherprofile.php" target="_blank">
+                <img src="uploads/<?= $_SESSION['teacher_image'] ?>" class="navbar-brand-img h-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold text-white"><?php echo $_SESSION['teacher_name'] ?></span>
+            </a>
+        </div>
+
+
+        <hr class="horizontal light mt-0 mb-2">
+
+        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+            <ul class="navbar-nav">
+
+
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="teacherhome.php">
+
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">dashboard</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Home</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="facultyprojetrequest.php">
+
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">table_view</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Project</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="shortcourses.php">
+
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">table_view</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1"> Short Courses</span>
+                    </a>
+                </li>
+
+
+
+
+
+                <li class="nav-item">
+                    <a class="nav-link text-white " href="teacherlogout.php">
+
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">LOGOUT</span>
+                    </a>
+                </li>
+
+
+
+    </aside>
+
+    <main class="main-content border-radius-lg ">
+        <!-- Navbar -->
+
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+
+
+
+
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+                        <form action="" method="POST" class="searchform order-lg-last">
+                            <div class="form-group d-flex">
+                                <input type="text" name="student" class="form-control pl-3" placeholder="Search">
+                                <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
+                            </div>
+                        </form>
+
+
+
+
+
+
+
+                    </div>
+
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item px-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+
+
+
+
+
+
+                </div>
+        </nav>
+
+        <!-- End Navbar -->
+
+        <!-- END nav -->
+
+
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav" style="padding-left:440px;">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Videos</a> <span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Material</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Exam</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <h3 style="text-align:center">Exam Name :<?php echo $_SESSION['ex']; ?> </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Id</th>
+
+                    <th scope="col">Question</th>
+                    <th scope="col">Answer</th>
+                    <th scope="col">Mark</th>
+                    <th scope="col">Total Mark</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <?php
+                    $tamark = 0;
+                    $total = 0;
+
+                    $a = "SELECT * FROM `code` WHERE cid='$cid' AND ename='$name' AND week='$weak'";
+
+
+                    $result = mysqli_query($conn, $a);
+                    while ($row = mysqli_fetch_array($result)) {
+                        $total = $row['mark'] + $total;
+
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    $sql = "SELECT DISTINCT(qid),sanme,sid,ans,mark,qus FROM `codemark` WHERE sid='$sid' AND week='$weak' AND ename='$name' AND eid='$cid'";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($result)) {
+                        $sname1 = $row['sanme'];
+                        $sid1 = $row['sid'];
+                        $qus1 = $row['qus'];
+                        $ans1 = $row['ans'];
+                        $mark1 = $row['mark'];
+                        $qid1 = $row['qid'];
+                        $tamark = $tamark + $mark1;
+
+                        $sql2 = "SELECT * FROM `code` WHERE id='$qid1'";
+                        $result2 = mysqli_query($conn, $sql2);
+                        $data = $result2->fetch_assoc();
+                        $num = mysqli_num_rows($result2);
+                        if ($num == 1) {
+                            $tmark = $data['mark'];
+                        }
+                        
+
+
+                        echo "<td> $sname1 </td>";
+                        echo "<td> $sid </td>";
+                        echo "<td> $qus1 </td>";
+                        echo "<td><textarea disabled style='height:200px;width:250px;'>$ans1 </textarea></td>";
+                        echo "<td> $mark1 </td>";
+                        echo "<td> $tmark </td>";
+
+                        
+                    break;}
+
+
+                    ?>
+
+
+
+
+
+
+
+
+                </tr>
+
+                <tr>
+                    <?php
+
+
+                    $sq8 = "SELECT * FROM codeans WHERE sid='$sid' AND week='$weak' AND cid='$cid' AND ename='$name' AND NOT EXISTS(SELECT * FROM codemark WHERE codeans.qid=codemark.qid) ORDER BY(id) DESC LIMIT 1";
+                    $result8 = mysqli_query($conn, $sq8);
+                    while ($row8 = mysqli_fetch_array($result8)) {
+                        $ansid = $row8['id'];
+                        $sname = $row8['sname'];
+                        $sid = $row8['sid'];
+                        $qus = $row8['qus'];
+                        $ans = $row8['ans'];
+                        $mark = $row8['mark'];
+                        $qid = $row8['qid'];
+                        $tamark = $tamark + $mark;
+
+
+                        $sql20 = "SELECT * FROM `code` WHERE id='$qid'";
+                        $result20 = mysqli_query($conn, $sql20);
+                        $data20 = $result20->fetch_assoc();
+                        $num20 = mysqli_num_rows($result20);
+                        if ($num20 == 1) {
+                            $tmark = $data20['mark'];
+                        }
+                        
+
+
+
+
+
+
+
+
+
+                        echo "<td> $sname </td>";
+                        echo "<td> $sid </td>";
+                        echo "<td> $qus </td>";
+                        echo "<td><textarea disabled style='height:200px;width:250px;'>$ans </textarea></td>";
+                        echo "<td> $mark </td>";
+                        echo "<td> $tmark </td>";
+
+                        echo "<td><a href='editmark.php?id=$ansid&&qus=$qus&&sid=$sid'><button type='button' class='btn btn-success'> Edit</button></a></td>";
+                    }
+
+
+                    ?>
+
+
+
+                </tr>
+
+            </tbody>
+
+
+        </table>
+
+
+
+        <h2>Total Mark is: <?php echo $tamark;   ?> </h2>
+
+         
+
+        <br>
+        <br>
+        <?php
+        $z=0;
+        $sq8 = "SELECT  DISTINCT(ename) FROM `mark` WHERE sid='$sid' AND week='$weak' AND ename='$name' And cid='$cid'";
+        $result8 = mysqli_query($conn, $sq8);
+        while ($row8 = mysqli_fetch_array($result8)) {
+            $z = $z + 1;
+            echo "<h5 style='text-align:center; color:green;'> Already Publish Result <i class='fa fa-check' aria-hidden='true'></i></h5>";
+        }
+        if ($z=0 ) {
+            echo "<h5 style='text-align:center; color:red;'> Not Publish Result <i class='fa fa-close' style='font-size:28px;color:red'></i></h5>";
+        }
+        
+
+
+        ?>
+
+
+        <br>
+        <div style="text-align:center;">
+            <?php echo "<a href='updateresult.php?id=$sid&&ename=$name&&week=$weak&&mark=$tamark&&total=$total&&cid=$cid'> <button  type='button' class='btn btn-success'>Publish Result</button></a>" ?>
+
+        </div>
+
+
+
+
+
+        <footer class="footer py-4  ">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            <h4>© 2022
+                                made by
+                                Team Echo
+                            </h4>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+
+        </div>
+
+
+    </main>
+
+
+
+    <div class="fixed-plugin">
+        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+            <i class="material-icons py-2">settings</i>
+        </a>
+        <div class="card shadow-lg">
+            <div class="card-header pb-0 pt-3">
+                <div class="float-start">
+                    <h5 class="mt-3 mb-0">UIU Activity Tracker</h5>
+
+                </div>
+                <div class="float-end mt-4">
+                    <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <!-- End Toggle Button -->
+            </div>
+            <hr class="horizontal dark my-1">
+            <div class="card-body pt-sm-3 pt-0">
+                <!-- Sidebar Backgrounds -->
+
+
+                <!-- Sidenav Type -->
+
+                <div class="mt-3">
+                    <h6 class="mb-0">Sidenav Type</h6>
+
+                </div>
+
+                <div class="d-flex">
+                    <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark" onclick="sidebarType(this)">Dark</button>
+                    <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+                    <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+                </div>
+
+                <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+
+
+                <!-- Navbar Fixed -->
+
+                <div class="mt-3 d-flex">
+                    <h6 class="mb-0">Navbar Fixed</h6>
+                    <div class="form-check form-switch ps-0 ms-auto my-auto">
+                        <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+                    </div>
+                </div>
+
+
+
+                <hr class="horizontal dark my-3">
+                <div class="mt-2 d-flex">
+                    <h6 class="mb-0">Light / Dark</h6>
+                    <div class="form-check form-switch ps-0 ms-auto my-auto">
+                        <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+                    </div>
+                </div>
+                <hr class="horizontal dark my-sm-4">
+
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <!--   Core JS Files   -->
+    <script src="./assets/js/core/popper.min.js"></script>
+    <script src="./assets/js/core/bootstrap.min.js"></script>
+    <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script>
+        let listVideo = document.querySelectorAll('.video-list .vid');
+        let mainVideo = document.querySelector('.main-video video');
+        let title = document.querySelector('.main-video .title');
+        listVideo.forEach(video => {
+            video.onclick = () => {
+                listVideo.forEach(vid => vid.classList.remove('active'));
+                video.classList.add('active');
+                if (video.classList.contains('active')) {
+                    let src = video.children[0].getAttribute('src');
+                    mainVideo.src = src;
+                    let text = video.children[1].innerHTML;
+                    title.innerHTML = text;
+                };
+
+            };
+
+        });
+    </script>
+
+
+
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="./assets/js/material-dashboard.min.js?v=3.0.4"></script>
+</body>
+
+</html>
